@@ -1,12 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hi</title>
-    <link href="/dist/output.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Points</title>
+    <!-- AutoCAD JavaScript APIs (v3) AutoCAD 2021 -->
+    <!-- DOCS: https://help.autodesk.com/view/OARX/2021/ENU/?guid=adsk_jsdev_autocad_javascript_api_about -->
+    <script type="text/javascript" src="Autodesk.AutoCAD.js"></script>
+
+    <!-- BUILD VERSION OF TAILWINDCSS -->
+    <link href="/dist/output.css" rel="stylesheet" />
+
+    <!-- VUE 2 - Development Version -->
+    <script src="vue.js"></script>
+
+    <!-- VUE 2 - Production Version -->
+    <!-- <script src="vue.min.js"></script> -->
+
+    <!-- <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" /> -->
 </head>
 
 <body>
@@ -42,8 +54,8 @@
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
-
-                <button type="button" class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7" @click="showReloadToadt = !showReloadToadt">
+                <button type="button" class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
+                    @click="showReloadToadt = !showReloadToadt">
                     <span class="sr-only">reload extension</span>
                     <!-- Heroicon name: reload -->
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -51,7 +63,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
-
                 </button>
 
                 <button type="button" class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6"
@@ -76,11 +87,9 @@
 
         <section class="pt-6 pb-24">
             <div class="grid grid-cols-1 gap-x-2 gap-y-2 lg:grid-cols-4">
-
                 <div class="rounded-lg border-2 border-dashed border-indigo-300 p-2">
                     <div class="h-auto">
-
-                        <div class="mb-5 mt-5">
+                        <div class="mb-5 mt-2">
                             <label for="output-directory"
                                 class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">output
                                 directory</label>
@@ -93,9 +102,9 @@
                                             d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
                                     </svg>
                                 </div>
-                                <input type="text" id="output-directory"
+                                <input type="text" id="output-directory" v-model="outputDirectory"
                                     class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="C:\Users\ahmed\Desktop\points.txt" required>
+                                    placeholder="C:\Users\ahmed\Desktop\points.txt" required />
                                 <button type="submit"
                                     class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -107,22 +116,39 @@
                             </div>
                         </div>
 
-                        <!-- start dropdown -->
-                        <div class="mb-16 mt-5">
-                            <label for="countries" class="sr-only">Select an
-                                option</label>
-                            <select id="countries"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>output format</option>
-                                <option value="txt">Text</option>
-                                <option value="exc">Excel</option>
-                                <option value="FR">CSV</option>
-                            </select>
+                        <!-- file name and format grid - start -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
+                            <!-- start - file name -->
+                            <div>
+                                <label for="first_name" class="sr-only">file name</label>
+                                <input type="text" id="file_name" v-model="fileName"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="points" required />
+                            </div>
+                            <!-- start - file name -->
+
+                            <!-- start dropdown -->
+                            <div>
+                                <label for="countries" class="sr-only">Select an format</label>
+                                <select id="countries" v-model="fileFormate"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="csv" selected>CSV</option>
+                                    <option value="txt">Text</option>
+                                    <option value="xlsx">Excel</option>
+                                </select>
+                            </div>
+                            <!-- end dropdown -->
                         </div>
-                        <!-- start dropdown -->
+                        <!-- file name and format grid - end -->
 
+                        <!-- final path -->
+                        <div class="smmb-3 md:mb-10 inline-flex justify-between items-center py-1 px-1 pr-4 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200"
+                            role="alert">
+                            <span class="ml-3 text-sm font-small">{{ outputFile }}</span>
+                        </div>
+                        <!-- final path -->
 
-
+                        <!-- info appear only in md display -->
                         <div class="hidden lg:block bg-gray-100 rounded-lg relative p-5">
                             <span
                                 class="w-8 h-8 inline-flex justify-center items-center bg-indigo-500 text-white rounded-full absolute -top-4 left-4">
@@ -134,32 +160,35 @@
                                 </svg>
                             </span>
 
-                            <h3 class="text-indigo-500 text-lg md:text-xl font-semibold mb-3">How it's work?
+                            <h3 class="text-indigo-500 text-lg md:text-xl font-semibold mb-3">
+                                How it's work?
                             </h3>
-                            <p class="text-gray-500">This is a section of some simple filler text, also known as
-                                placeholder text. It shares some characteristics of a real written text.</p>
+                            <p class="text-gray-500">
+                                This is a section of some simple filler text, also known as
+                                placeholder text. It shares some characteristics of a real
+                                written text.
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-3 rounded-lg border-2 border-dashed border-indigo-300 lg:h-full p-3">
+                <div class="relative lg:col-span-3 rounded-lg border-2 border-dashed border-indigo-300 lg:h-full p-3">
+                    <!--  -->
+                    <span class="absolute right-1 top-1 bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                        <svg class="mr-1 h-3 w-3 text-indigo-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />  <circle cx="12" cy="10" r="3" /></svg>                        
+                        {{ pointsCount }}
+                        point
+                    </span>
+
                     <div class="p-4 overflow-x-auto relative sm:rounded-lg">
                         <table class="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="text-center py-3 px-6">
-                                        PN
-                                    </th>
-                                    <th scope="col" class="text-center py-3 px-6">
-                                        X
-                                    </th>
-                                    <th scope="col" class="text-center py-3 px-6">
-                                        Y
-                                    </th>
-                                    <th scope="col" class="text-center py-3 px-6">
-                                        Z
-                                    </th>
+                                    <th scope="col" class="text-center py-3 px-6">PN</th>
+                                    <th scope="col" class="text-center py-3 px-6">X</th>
+                                    <th scope="col" class="text-center py-3 px-6">Y</th>
+                                    <th scope="col" class="text-center py-3 px-6">Z</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -184,100 +213,59 @@
                     </div>
                 </div>
 
-
                 <!-- toast -->
-                <div id="toast-interactive" :class="showReloadToadt ? '' : 'hidden'" class="absolute right-5 top-5 p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
+                <div id="toast-interactive" :class="showReloadToadt ? '' : 'hidden'"
+                    class="absolute right-5 top-5 p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400"
+                    role="alert">
                     <div class="flex">
-                        <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:text-blue-300 dark:bg-blue-900">
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path></svg>
+                        <div
+                            class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:text-blue-300 dark:bg-blue-900">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
                             <span class="sr-only">Refresh icon</span>
                         </div>
                         <div class="ml-3 text-sm font-normal">
                             <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Reload Program</span>
-                            <div class="mb-2 text-sm font-normal">if you reload data will be lost, and you cant restore it again</div> 
+                            <div class="mb-2 text-sm font-normal">
+                                if you reload data will be lost, and you cant restore it again
+                            </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <a href="#" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Reload</a>
+                                    <a href="#"
+                                        class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Reload</a>
                                 </div>
                                 <div>
-                                    <a href="#" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Not now</a> 
+                                    <a href="#"
+                                        class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Not
+                                        now</a>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
-                        <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-interactive" aria-label="Close">
+                        <button type="button"
+                            class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                            data-dismiss-target="#toast-interactive" aria-label="Close">
                             <span class="sr-only">Close</span>
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
                         </button>
                     </div>
                 </div>
                 <!-- toast -->
             </div>
         </section>
-
     </main>
 
-    <script type="module">
-        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-
-        createApp({
-            data() {
-                return {
-                    showReloadToadt: false,
-                    selectedCoordinates: [
-                        {
-                            pn: 1,
-                            x: 776160.013,
-                            y: 2233695.263,
-                            z: 1604.234
-                        },
-                        {
-                            pn: 2,
-                            x: 776160.013,
-                            y: 2233695.263,
-                            z: 1604.234
-                        },
-                        {
-                            pn: 3,
-                            x: 776160.013,
-                            y: 2233695.263,
-                            z: 1604.234
-                        },
-                        {
-                            pn: 4,
-                            x: 776160.013,
-                            y: 2233695.263,
-                            z: 1604.234
-                        },
-                        {
-                            pn: 5,
-                            x: 776160.013,
-                            y: 2233695.263,
-                            z: 1604.234
-                        },
-                        {
-                            pn: 6,
-                            x: 776160.013,
-                            y: 2233695.263,
-                            z: 1604.234
-                        },
-                        {
-                            pn: 7,
-                            x: 776160.013,
-                            y: 2233695.263,
-                            z: 1604.234
-                        },
-                    ],
-                }
-            },
-            computed: {
-                publishedBooksMessage() {
-                    return this.selectedCoordinates.length;
-                }
-            }
-        }).mount('#app')
-    </script>
-
-    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+    <!-- logic with vue js script -->
+    <script src="main.js"></script>
+    <!-- <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script> -->
 </body>
 
 </html>
