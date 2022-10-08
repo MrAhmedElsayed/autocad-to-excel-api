@@ -1,4 +1,4 @@
-# autocad-javascript-api
+# autocad-to-excel-api
 
 ## Project setup
 ```
