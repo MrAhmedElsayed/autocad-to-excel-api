@@ -10,4 +10,4 @@ new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-import "bootstrap/dist/js/bootstrap.bundle";
+// import "bootstrap/dist/js/bootstrap.bundle";
