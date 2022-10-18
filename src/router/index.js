@@ -1,8 +1,7 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-
-Vue.use(VueRouter);
+import ImportToCad from "@/views/ImportToCad";
+import ExportFromCad from "@/views/ExportFromCad";
 
 const routes = [
   {
@@ -10,9 +9,20 @@ const routes = [
     name: "home",
     component: HomeView,
   },
+  {
+    path: "/import",
+    name: "import",
+    component: ImportToCad,
+  },
+  {
+    path: "/import",
+    name: "import",
+    component: ExportFromCad,
+  },
 ];
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes,
 });
 
