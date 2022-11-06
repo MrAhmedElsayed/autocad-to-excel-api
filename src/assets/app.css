@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "font-RobotoCondensed-Bold";
+    src: url("./fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf");
+    font-weight: 200 700;
+    font-display: swap;
+    font-style: normal;
+}
+
+.test-my-heading {
+    font-family: "font-RobotoCondensed-Bold", Serif, serif;
+}
+
+
+@font-face {
+    font-family: "font-Eczar";
+    src: url("./fonts/Eczar/static/Eczar-Bold.ttf");
+    font-weight: 200 700;
+    font-display: swap;
+    font-style: normal;
+}
+
+.test-my-heading-Eczar {
+    font-family: "font-Eczar", Serif, serif;
+}

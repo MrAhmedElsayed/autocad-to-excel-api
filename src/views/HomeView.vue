@@ -1,10 +1,12 @@
 <script>
 import * as XLSX from "xlsx";
+import CoordinatesTable from "@/components/CoordinatesTable";
 
 export default {
   name: "HomeView",
+  components: { CoordinatesTable },
   data: () => ({
-    selectedPoint: "",
+    selectedPoint: {},
     showUpdateTable: false,
     fileFormat: "xlsx",
     fileName: "points",
@@ -23,6 +25,7 @@ export default {
       );
     },
   },
+  // TODO : CRUD ;(
   methods: {
     setSelectedPoint(point) {
       this.selectedPoint = point;
@@ -60,6 +63,12 @@ export default {
       XLSX.writeFile(workbook, "Points.xlsx");
       this.startBtnStatus = !this.startBtnStatus;
     },
+    captureView() {
+      // eslint-disable-next-line no-undef
+      Acad.Application.activedocument.capturePreview(100, 100).then((res) => {
+        console.log(res);
+      });
+    },
   },
 };
 </script>
@@ -80,11 +89,11 @@ export default {
                 type="button"
                 class="position-absolute top-0 start-0 translate-middle btn btn-dark border border-info rounded-circle"
               >
-                <span class="m-1">
+                <span class="m-0">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
+                    width="20"
+                    height="20"
                     fill="currentColor"
                     class="bi bi-check2"
                     viewBox="0 0 16 16"
@@ -295,40 +304,11 @@ export default {
       </div>
     </section>
     <!-- table -->
-    <section class="row">
-      <div class="col-12">
-        <table
-          class="table table-bordered table-hover table-striped table-sm table-dark text-center mt-3"
-        >
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">X</th>
-              <th scope="col">Y</th>
-              <th scope="col">Z</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-show="points.length > 0"
-              v-for="po in points"
-              :key="po.pn"
-              @dblclick="setSelectedPoint(po)"
-              class="point-tr user-select-none"
-              :class="selectedPoint.pn === po.pn ? 'selected-tr' : ''"
-            >
-              <th scope="row">{{ po.pn }}</th>
-              <td>{{ po.x }}</td>
-              <td>{{ po.y }}</td>
-              <td>{{ po.z }}</td>
-            </tr>
-            <tr v-show="points.length === 0">
-              <td colspan="4" class="text-muted user-select-none">No points</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+    <CoordinatesTable
+      :points="points"
+      :selected-point="selectedPoint"
+      :set-selected-point="setSelectedPoint"
+    />
     <!-- pagination -->
     <section class="d-flex justify-content-between" v-if="points.length > 5">
       <!--        <nav>-->
@@ -446,6 +426,12 @@ export default {
           </button>
         </div>
       </div>
+    </section>
+
+    <section class="test">
+      <button class="btn btn-outline-danger" @click="captureView">
+        CAPTURE
+      </button>
     </section>
   </main>
 </template>

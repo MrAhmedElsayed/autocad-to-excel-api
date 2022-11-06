@@ -19,7 +19,9 @@ export default {
           width="32"
           height="32"
         />
-        <span class="ms-2" style="color: #7cb7e1">Export Points</span>
+        <span class="ms-2 test-my-heading-Eczar" style="color: #7cb7e1"
+          >Export Points</span
+        >
       </div>
       <button class="btn btn-dark" type="button" @click="showMenu = !showMenu">
         <span>
